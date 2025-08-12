@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
+	<meta charset="UTF-8">
 	<title>Quizziee</title>
 	<link rel="icon" href="img/logo.png" type="image/x-icon">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,19 +12,11 @@
 <body>
 	<div class="home-box custom-box">
 		<h3>Instructions</h3>
-		<p>Total number of questions: <span class="total-question"></span></p>
-		<p>You can attempt the quiz multiple times</p>
-		<p>Each question carries one point. No negative marking for wrong answers</p>
-		<p>Questions are of Multiple Choice</p>
-		<button type="button" class="btn" onclick="startQuiz()">Start Quiz</button>
-		<label for="topic">Choose Topic:</label>
-
-		<select name="topic" id="topic">
-			<option value="sports">Sports</option>
-			<option value="logic">Logic</option>
-			<option value="gk">GK</option>
-			<option value="computer">Computer</option>
-		</select>
+		<p>Nombre total de questions: <span class="total-question"></span></p>
+		<p>Vous pouvez recommencer le quiz autant de fois que vous voulez</p>
+		<p>Chaque question rapporte un point. Pas de points négatifs pour les mauvaises réponses</p>
+		<p><strong>Mode apprentissage:</strong> Les questions correctes disparaissent, les incorrectes sont reposées jusqu'à ce que vous les réussissiez toutes!</p>
+		<button type="button" class="btn" onclick="startQuiz()">Commencer le Quiz</button>
 	</div>
 
     <div class="quiz-box custom-box hide">
@@ -37,8 +30,8 @@
 
         </div>
         <div class="next-question-btn">
-            <button type="button" class="btn next-btn" onclick="next()">Next</button>
-            <button type="button" class="btn exit-btn" onclick="quizOver()">Quit</button>
+            <button type="button" class="btn next-btn" onclick="next()">Question Suivante</button>
+            <button type="button" class="btn exit-btn" onclick="quizOver()">Quitter</button>
         </div>
         <div class="answers-indicator">
 
@@ -46,7 +39,7 @@
     </div>
 
     <div class="result-box custom-box hide">
-        <h1>Result</h1>
+        <h1>Félicitations! Toutes les questions sont réussies!</h1>
         <table>
             <tr>
                 <td>Total Question</td>

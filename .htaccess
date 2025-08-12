@@ -1,0 +1,15 @@
+# Force UTF-8 encoding
+AddDefaultCharset UTF-8
+
+# Set UTF-8 encoding for specific file types
+<FilesMatch "\.(html|htm|js|css)$">
+    ForceType 'text/html; charset=UTF-8'
+</FilesMatch>
+
+<FilesMatch "\.js$">
+    ForceType 'application/javascript; charset=UTF-8'
+</FilesMatch>
+
+<FilesMatch "\.css$">
+    ForceType 'text/css; charset=UTF-8'
+</FilesMatch>

@@ -5,39 +5,63 @@ const answersIndicatorContainer = document.querySelector(".answers-indicator");
 const homeBox = document.querySelector(".home-box");
 const quizBox = document.querySelector(".quiz-box");
 const resultBox = document.querySelector(".result-box");
-const questionLimit = 5;
 
 let questionCounter = 0;
 let currentQuestion;
 let availableQuestions = [];
+let correctlyAnsweredQuestions = [];
+let totalQuestions = 0;
 let availableOptions = [];
 let correctAnswers = 0;
 let attempt = 0;
+let selectedAnswers = [];
 
 function setAvailableQuestions(){
-    const totalQuestions = quiz.length;
-    for(let i=0; i<totalQuestions; i++){
-        availableQuestions.push(quiz[i])
-    }
+    totalQuestions = quiz.length;
+    availableQuestions = [...quiz]; // Copy all questions
+    correctlyAnsweredQuestions = []; // Reset correctly answered questions
 }
 
 function getNewQuestion(){
-    questionNumber.innerHTML = "Question " + (questionCounter+1) + " of " + questionLimit;
-    const questionIndex = availableQuestions[Math.floor(Math.random()*availableQuestions.length)];
-    currentQuestion = questionIndex;
+    // Update progress display
+    const remaining = availableQuestions.length;
+    const completed = correctlyAnsweredQuestions.length;
+    questionNumber.innerHTML = `Questions restantes: ${remaining} | Réussies: ${completed}/${totalQuestions}`;
+    
+    // Check if all questions have been answered correctly
+    if(availableQuestions.length === 0) {
+        quizOver();
+        return;
+    }
+    
+    // Hide next button until question is answered
+    hideNextButton();
+    
+    // Get a random question from available questions
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    currentQuestion = availableQuestions[randomIndex];
     questionText.innerHTML = currentQuestion.q;
-    const index1 = availableQuestions.indexOf(questionIndex);
-    availableQuestions.splice(index1,1);
+    
+    // Reset selected answers for new question
+    selectedAnswers = [];
+    
     if(currentQuestion.hasOwnProperty("img")){
         const img = document.createElement("img");
         img.src = currentQuestion.img;
         questionText.appendChild(img);
     }
+    
+    // Reset available options
+    availableOptions = [];
     const optionsLength = currentQuestion.options.length;
     for(let i=0; i<optionsLength; i++){
         availableOptions.push(i);
     }
     optionContainer.innerHTML = '';
+    
+    // Check if it's a multiple choice question
+    const isMultipleChoice = Array.isArray(currentQuestion.answer);
+    
     let animationDelay = 0.2;
     for(let i=0; i<optionsLength; i++){
         const optionIndex = availableOptions[Math.floor(Math.random()*availableOptions.length)];
@@ -50,30 +74,122 @@ function getNewQuestion(){
         animationDelay = animationDelay+0.15;
         option.className = "option";
         optionContainer.appendChild(option);
-        option.setAttribute("onclick", "getResult(this)");
+        
+        if(isMultipleChoice) {
+            option.setAttribute("onclick", "toggleAnswer(this)");
+        } else {
+            option.setAttribute("onclick", "getResult(this)");
+        }
     }
+    
+    // Add submit button for multiple choice questions
+    if(isMultipleChoice) {
+        const submitButton = document.createElement("button");
+        submitButton.innerHTML = "Submit Answers";
+        submitButton.className = "btn submit-answers-btn";
+        submitButton.setAttribute("onclick", "submitMultipleAnswers()");
+        optionContainer.appendChild(submitButton);
+    }
+    
     questionCounter++;
 }
 
 function getResult(element){
     const id = parseInt(element.id);
-    if(id === currentQuestion.answer){
-        element.classList.add("correct");
-        updateAnswerIndicator("correct");
-        correctAnswers++;
-    }
-    else{
-        element.classList.add("wrong");
-        updateAnswerIndicator("wrong");
-        const optionLength = optionContainer.children.length;
-        for(let i=0; i<optionLength; i++){
-            if(parseInt(optionContainer.children[i].id)===currentQuestion.answer) {
-                optionContainer.children[i].classList.add("correct");
+    const isMultipleChoice = Array.isArray(currentQuestion.answer);
+    
+    if(!isMultipleChoice) {
+        // Single choice logic
+        if(id === currentQuestion.answer){
+            element.classList.add("correct");
+            correctAnswers++;
+            // Remove question from available questions (correctly answered)
+            const questionIndex = availableQuestions.indexOf(currentQuestion);
+            if(questionIndex > -1) {
+                availableQuestions.splice(questionIndex, 1);
+                correctlyAnsweredQuestions.push(currentQuestion);
             }
         }
+        else{
+            element.classList.add("wrong");
+            // Show correct answer
+            const optionLength = optionContainer.children.length;
+            for(let i=0; i<optionLength; i++){
+                if(parseInt(optionContainer.children[i].id)===currentQuestion.answer) {
+                    optionContainer.children[i].classList.add("correct");
+                }
+            }
+            
+            // Question stays in available questions (will be asked again)
+        }
+        attempt++;
+        unclickableOptions();
+        showNextButton();
     }
+}
+
+function toggleAnswer(element) {
+    const id = parseInt(element.id);
+    
+    if(element.classList.contains("selected")) {
+        // Deselect
+        element.classList.remove("selected");
+        const index = selectedAnswers.indexOf(id);
+        if(index > -1) {
+            selectedAnswers.splice(index, 1);
+        }
+    } else {
+        // Select
+        element.classList.add("selected");
+        selectedAnswers.push(id);
+    }
+}
+
+function submitMultipleAnswers() {
+    const correctAnswerArray = currentQuestion.answer;
+    
+    // Sort both arrays to compare
+    selectedAnswers.sort((a, b) => a - b);
+    const sortedCorrectAnswers = [...correctAnswerArray].sort((a, b) => a - b);
+    
+    // Check if answers match exactly
+    const isCorrect = selectedAnswers.length === sortedCorrectAnswers.length && 
+                     selectedAnswers.every((val, index) => val === sortedCorrectAnswers[index]);
+    
+    // Show correct/wrong styling
+    const optionElements = optionContainer.querySelectorAll('.option');
+    optionElements.forEach(option => {
+        const optionId = parseInt(option.id);
+        
+        if(correctAnswerArray.includes(optionId)) {
+            option.classList.add("correct");
+        } else if(selectedAnswers.includes(optionId)) {
+            option.classList.add("wrong");
+        }
+    });
+    
+    if(isCorrect) {
+        correctAnswers++;
+        // Remove question from available questions (correctly answered)
+        const questionIndex = availableQuestions.indexOf(currentQuestion);
+        if(questionIndex > -1) {
+            availableQuestions.splice(questionIndex, 1);
+            correctlyAnsweredQuestions.push(currentQuestion);
+        }
+    } else {
+        // Question stays in available questions (will be asked again)
+    }
+    
     attempt++;
     unclickableOptions();
+    
+    // Hide submit button
+    const submitBtn = optionContainer.querySelector('.submit-answers-btn');
+    if(submitBtn) {
+        submitBtn.style.display = 'none';
+    }
+    
+    showNextButton();
 }
 
 function unclickableOptions(){
@@ -83,26 +199,38 @@ function unclickableOptions(){
     }
 }
 
+function showNextButton(){
+    const nextBtn = document.querySelector(".next-btn");
+    if(nextBtn) {
+        nextBtn.style.display = "inline-block";
+        nextBtn.disabled = false;
+    }
+}
+
+function hideNextButton(){
+    const nextBtn = document.querySelector(".next-btn");
+    if(nextBtn) {
+        nextBtn.style.display = "none";
+        nextBtn.disabled = true;
+    }
+}
+
 function next(){
-    if(questionCounter === questionLimit){
+    if(availableQuestions.length === 0) {
         quizOver();
-    }else{
-        getNewQuestion()
+    } else {
+        getNewQuestion();
     }
 }
 
 function answersIndicator(){
+    // No longer using a fixed indicator since questions can be repeated
+    // Could be enhanced to show progress differently
     answersIndicatorContainer.innerHTML = '';
-    const totalQuestion = questionLimit;
-    for(let i=0; i<totalQuestion; i++){
-        const indicator = document.createElement("div");
-        answersIndicatorContainer.appendChild(indicator);
-
-    }
 }
 
 function updateAnswerIndicator(markType){
-    answersIndicatorContainer.children[questionCounter-1].classList.add(markType)
+    // No longer needed with new system
 }
 
 function quizOver(){
@@ -112,13 +240,13 @@ function quizOver(){
 }
 
 function quizResult(){
-    resultBox.querySelector(".total-question").innerHTML = questionLimit;
+    resultBox.querySelector(".total-question").innerHTML = totalQuestions;
     resultBox.querySelector(".total-correct").innerHTML = correctAnswers;
     resultBox.querySelector(".total-attempt").innerHTML = attempt;
     resultBox.querySelector(".total-wrong").innerHTML = attempt - correctAnswers;
-    const percentage = (correctAnswers/questionLimit)*100;
+    const percentage = (correctAnswers/totalQuestions)*100;
     resultBox.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
-    resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + questionLimit;
+    resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + totalQuestions;
 }
 
 function resetQuiz(){
@@ -126,6 +254,8 @@ function resetQuiz(){
     correctAnswers = 0;
     attempt = 0;
     availableQuestions = [];
+    correctlyAnsweredQuestions = [];
+    selectedAnswers = [];
 }
 
 function tryAgain(){
@@ -145,10 +275,11 @@ function startQuiz(){
     homeBox.classList.add("hide");
     quizBox.classList.remove("hide");
     setAvailableQuestions();
+    hideNextButton(); // Hide next button at start
     getNewQuestion();
     answersIndicator();
 }
 
 window.onload = function (){
-    homeBox.querySelector(".total-question").innerHTML = ""+questionLimit;
+    homeBox.querySelector(".total-question").innerHTML = ""+quiz.length;
 }
