@@ -300,7 +300,7 @@ function displayStatistics(){
             </div>
             <div class="stat-item">
                 <span class="stat-number">${generalStats.totalAttempts}</span>
-                <span class="stat-label">Total tentatives</span>
+                <span class="stat-label">nombre de tentatives</span>
             </div>
             <div class="stat-item">
                 <span class="stat-number">${generalStats.globalSuccessRate}%</span>

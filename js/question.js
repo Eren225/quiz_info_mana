@@ -399,19 +399,6 @@ const quiz = [
     "topic": "gestion_projet"
   },
   {
-    "q": "Choisissez la bonne proposition (WBS).",
-    "options": [
-      "L'acronyme WBS signifie Work Breakdown System",
-      "Un WBS est utilisé pour représenter le périmètre d’un projet et les différents délivrables",
-      "Un WBS inclut une dimension temporelle.",
-      "Le WBS est un outil de planification",
-      "Toutes les propositions sont correctes.",
-      "Aucune proposition n'est correcte."
-    ],
-    "answer": 1,
-    "topic": "gestion_projet"
-  },
-  {
     "q": "Établissez les correspondances entre les phases du modèle Waterfall et les activités proposées.",
     "options": [
       "Requirements : Rédaction du cahier des charges",
@@ -511,23 +498,6 @@ const quiz = [
     "topic": "gestion_projet"
   },
   {
-    "q": "Contrat 'Software Assurance' (NSI) — éléments inclus",
-    "options": [
-      "Le maintien d'un environnement technique chez NSI pour les futures évolutions.",
-      "Le maintien de la connaissance au sein des équipes NSI.",
-      "La mise à disposition d'un consultant pour former les utilisateurs (maximum 2 jours par an).",
-      "Le remplacement du hardware devenu obsolète.",
-      "La maintenance corrective.",
-      "L'ajout sans surcoût de nouvelles fonctionnalités mineures (maximum 5 jours de travail par an)."
-    ],
-    "answer": [
-      0,
-      1,
-      4
-    ],
-    "topic": "gestion_projet"
-  },
-  {
     "q": "Choisissez la proposition correcte (MVP).",
     "options": [
       "Un MVP est la version d'un produit qui permet de limiter le nombre de bugs avec un minimum d'effort",
@@ -593,8 +563,7 @@ const quiz = [
     ],
     "answer": [
       0,
-      2,
-      3
+      2
     ],
     "topic": "gestion_projet"
   },
@@ -628,7 +597,7 @@ const quiz = [
       "Requirements : Rédaction du cahier des charges",
       "Analysis : Identification des règles métier",
       "Design : Choix d'architecture technique",
-      "Code : Développement du produit",
+      "Code : Déploiement du produit",
       "Test : Vérification de la conformité par rapport aux critères d'acceptation",
       "Maintenance : Déploiement d'améliororations fonctionnelles"
     ],
