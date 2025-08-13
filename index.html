@@ -16,7 +16,31 @@
 		<p>Vous pouvez recommencer le quiz autant de fois que vous voulez</p>
 		<p>Chaque question rapporte un point. Pas de points négatifs pour les mauvaises réponses</p>
 		<p><strong>Mode apprentissage:</strong> Les questions correctes disparaissent, les incorrectes sont reposées jusqu'à ce que vous les réussissiez toutes!</p>
-		<button type="button" class="btn" onclick="startQuiz()">Commencer le Quiz</button>
+		<div class="button-group">
+			<button type="button" class="btn" onclick="startQuiz()">Commencer le Quiz</button>
+			<button type="button" class="btn secondary-btn" onclick="showStatistics()">📊 Statistiques</button>
+		</div>
+	</div>
+
+	<div class="statistics-box custom-box hide">
+		<h2>📊 Statistiques du Quiz</h2>
+		
+		<div class="general-stats">
+			<!-- Les statistiques générales seront insérées ici -->
+		</div>
+		
+		<div class="failed-questions-section">
+			<h3>🔥 Questions les plus échouées</h3>
+			<div class="failed-questions-list">
+				<!-- La liste des questions échouées sera insérée ici -->
+			</div>
+		</div>
+		
+		<div class="stats-actions">
+			<button type="button" class="btn" onclick="goToHomeFromStats()">🏠 Retour</button>
+			<button type="button" class="btn secondary-btn" onclick="exportStats()">💾 Exporter</button>
+			<button type="button" class="btn danger-btn" onclick="resetAllStats()">🗑️ Réinitialiser</button>
+		</div>
 	</div>
 
     <div class="quiz-box custom-box hide">
@@ -71,6 +95,7 @@
     </div>
 
     <script src="js/question.js"></script>
+    <script src="js/statistics.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

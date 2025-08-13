@@ -327,19 +327,6 @@ const quiz = [
     "topic": "gestion_projet"
   },
   {
-    "q": "Parmi les propositions suivantes, choisissez celle qui est correcte (PRINCE2 — définition d'un thème).",
-    "options": [
-      "Toutes les propositions sont correctes.",
-      "Dans PRINCE2, un thème est une ligne directrice fondamentale à suivre pour garantir que le projet est bien structuré, contrôlé et géré de manière appropriée.",
-      "Dans PRINCE2, un thème est un aspect clé de la planification qui doit être continuellement pris en compte.",
-      "Dans PRINCE2, un thème est un ensemble d'étapes séquentielles qui guident la gestion et la réalisation d'un projet.",
-      "Aucune des propositions n'est correcte",
-      "Dans PRINCE2, un thème est lié à une décision qui engage l’organisation sur le long terme."
-    ],
-    "answer": 1,
-    "topic": "gestion_projet"
-  },
-  {
     "q": "Le positionnement de la structure IT diffère d'une entreprise à l'autre. Lorsque la structure IT est centralisée, cela signifie...",
     "options": [
       "Toutes les propositions sont correctes",
@@ -443,19 +430,6 @@ const quiz = [
     "topic": "gestion_projet"
   },
   {
-    "q": "Une offre au forfait correspond à :",
-    "options": [
-      "Une provision utilisée sur base de mini-forfaits",
-      "Un projet dans lequel une méthodologie agile est appliquée",
-      "Une mise à disposition d'un ou plusieurs collaborateurs à un tarif journalier fixe sur une durée définie",
-      "Un projet à prix fixe sur un périmètre défini",
-      "Toutes les propositions sont correctes",
-      "Aucune des propositions n'est correcte"
-    ],
-    "answer": 3,
-    "topic": "gestion_projet"
-  },
-  {
     "q": "Une caractéristique d’une structure organisationnelle hiérarchique est :",
     "options": [
       "La rapidité du processus de prise de décision",
@@ -554,22 +528,6 @@ const quiz = [
     "topic": "gestion_projet"
   },
   {
-    "q": "Quelles propositions correspondent au rôle de Scrum Master ?",
-    "options": [
-      "Aide à la collaboration entre l'équipe et le product owner",
-      "Crée et priorise les items du backlog",
-      "Veille à la bonne application de la méthodologie SCRUM",
-      "Possède la “vision” du produit",
-      "Protège l’équipe des événements extérieurs perturbateurs"
-    ],
-    "answer": [
-      0,
-      2,
-      4
-    ],
-    "topic": "gestion_projet"
-  },
-  {
     "q": "Choisissez la proposition correcte (MVP).",
     "options": [
       "Un MVP est la version d'un produit qui permet de limiter le nombre de bugs avec un minimum d'effort",
@@ -593,32 +551,6 @@ const quiz = [
       "qu'il y a une structure IT par département (finance, comptabilité, production…)"
     ],
     "answer": 0,
-    "topic": "gestion_projet"
-  },
-  {
-    "q": "Dans la variante RASCI, que signifie et quel est le rôle du 'S' ?",
-    "options": [
-      "Aucune proposition n'est correcte",
-      "Supervisor : supervise l'exécution des tâches",
-      "Support : fournit les ressources nécessaires pour la bonne réalisation de la tâche",
-      "Supervisor : supervise la planification des tâches",
-      "Support : s'occupe du support auprès de la clientèle",
-      "Toutes les propositions sont correctes."
-    ],
-    "answer": 2,
-    "topic": "gestion_projet"
-  },
-  {
-    "q": "Un offre au forfait correspond à :",
-    "options": [
-      "Un projet dans lequel une méthodologie agile est appliquée.",
-      "Toutes les propositions sont correctes.",
-      "Un mise à disposition d'un ou plusieurs collaborateurs à un tarif journalier fixe sur une durée définie.",
-      "Aucune des propositions n'est correcte.",
-      "Une provision utilisée sur base de mini-forfaits.",
-      "Un projet à prix fixe sur un périmètre défini."
-    ],
-    "answer": 5,
     "topic": "gestion_projet"
   },
   {

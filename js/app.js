@@ -100,9 +100,11 @@ function getResult(element){
     
     if(!isMultipleChoice) {
         // Single choice logic
+        let isCorrect = false;
         if(id === currentQuestion.answer){
             element.classList.add("correct");
             correctAnswers++;
+            isCorrect = true;
             // Remove question from available questions (correctly answered)
             const questionIndex = availableQuestions.indexOf(currentQuestion);
             if(questionIndex > -1) {
@@ -122,6 +124,10 @@ function getResult(element){
             
             // Question stays in available questions (will be asked again)
         }
+        
+        // Enregistrer la statistique
+        quizStats.recordAnswer(currentQuestion.q, isCorrect);
+        
         attempt++;
         unclickableOptions();
         showNextButton();
@@ -179,6 +185,9 @@ function submitMultipleAnswers() {
     } else {
         // Question stays in available questions (will be asked again)
     }
+    
+    // Enregistrer la statistique
+    quizStats.recordAnswer(currentQuestion.q, isCorrect);
     
     attempt++;
     unclickableOptions();
@@ -269,6 +278,70 @@ function goToHome(){
     resultBox.classList.add("hide");
     homeBox.classList.remove("hide");
     resetQuiz();
+}
+
+function showStatistics(){
+    homeBox.classList.add("hide");
+    document.querySelector(".statistics-box").classList.remove("hide");
+    displayStatistics();
+}
+
+function displayStatistics(){
+    const generalStats = quizStats.getGeneralStats();
+    const mostFailed = quizStats.getMostFailedQuestions(10);
+    
+    // Afficher les statistiques générales
+    document.querySelector(".general-stats").innerHTML = `
+        <h3>📊 Statistiques Générales</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">${generalStats.totalQuestions}</span>
+                <span class="stat-label">Questions étudiées</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">${generalStats.totalAttempts}</span>
+                <span class="stat-label">Total tentatives</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">${generalStats.globalSuccessRate}%</span>
+                <span class="stat-label">Taux de réussite</span>
+            </div>
+        </div>
+    `;
+    
+    // Afficher le classement des questions les plus échouées
+    const failedQuestionsHtml = mostFailed.map((question, index) => `
+        <div class="failed-question-item">
+            <div class="rank">#${index + 1}</div>
+            <div class="question-info">
+                <div class="question-text">${question.questionText}</div>
+                <div class="question-stats">
+                    <span class="error-rate">${question.errorRate}% d'erreurs</span>
+                    <span class="attempts">(${question.totalAttempts} tentatives)</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    document.querySelector(".failed-questions-list").innerHTML = 
+        mostFailed.length > 0 ? failedQuestionsHtml : '<p>Aucune donnée disponible. Commencez le quiz pour voir les statistiques !</p>';
+}
+
+function goToHomeFromStats(){
+    document.querySelector(".statistics-box").classList.add("hide");
+    homeBox.classList.remove("hide");
+}
+
+function resetAllStats(){
+    if(confirm('Êtes-vous sûr de vouloir réinitialiser toutes les statistiques ? Cette action est irréversible.')) {
+        quizStats.resetStats();
+        displayStatistics();
+        alert('Statistiques réinitialisées avec succès !');
+    }
+}
+
+function exportStats(){
+    quizStats.exportStats();
 }
 
 function startQuiz(){
