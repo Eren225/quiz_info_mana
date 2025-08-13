@@ -1,140 +1,173 @@
-# Quiz Generator
+# 🎯 Quizziee - Générateur de Quiz Interactif
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/warrenferns/Emotion-Based-Music-Player">
-  </a>
-  <p align="center">
-    Ever find yourself bored and looking for random trivia quizzes? Test out your knowledge with tests and games
-    <br />
-    <a href="https://github.com/githubcrce/Quiz-Generator/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://githubcrce.github.io/Quiz-Generator/">View Demo</a>
-    ·
-    <a href="https://github.com/githubcrce/Quiz-Generator/issues/new/choose">Report Bug</a>
-    ·
-    <a href="https://github.com/githubcrce/Quiz-Generator/issues/new/choose">Request Feature</a>
-  </p>
-</p>
+<div align="center">
 
+![Quiz Generator](https://img.shields.io/badge/Quiz-Generator-6366f1?style=for-the-badge&logo=javascript&logoColor=white)
+![Dark Theme](https://img.shields.io/badge/Theme-Dark%20Mode-1a1a1a?style=for-the-badge&logo=css3&logoColor=white)
+![Responsive](https://img.shields.io/badge/Design-Responsive-10b981?style=for-the-badge&logo=html5&logoColor=white)
 
+**Une application de quiz moderne avec un design sombre épuré et des fonctionnalités avancées**
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
+[🚀 Demo Live](#) • [📱 Screenshots](#screenshots) • [⚡ Fonctionnalités](#fonctionnalités) • [🛠️ Installation](#installation)
 
+</div>
 
+---
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+## ✨ Aperçu
 
+Quizziee est une application web interactive de quiz avec un design moderne en thème sombre. Elle offre une expérience utilisateur fluide avec des animations élégantes, des statistiques détaillées et un mode d'apprentissage adaptatif.
 
-[![Screen Shot][product-screenshot-1]](https://github.com/githubcrce/Quiz-Generator)
+### 🎨 Design Moderne
+- **Thème sombre épuré** avec palette de couleurs professionnelle
+- **Animations fluides** et transitions CSS avancées
+- **Interface responsive** optimisée pour tous les appareils
+- **Typographie moderne** avec la police Inter
 
-Coding your own JavaScript Quiz Generator is also a fantastic learning exercise. It teaches you how to deal with events, manipulate the DOM, handle user input, give feedback to the user. This one is better because it's friendly. Try now.
+## 📱 Screenshots
 
-[![Screen Shot][product-screenshot-2]](https://github.com/githubcrce/Quiz-Generator)
+<div align="center">
 
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+### 🏠 Écran d'accueil
+![Home Screen](screens/home-screen.jpg)
 
-### Built With
+### 🎯 Interface de quiz
+![Quiz Screen](screens/quiz-screen.jpg)
 
-* [HTML](https://html.com/)
-* [CSS](https://css-tricks.com/)
-* [JavaScript](https://www.javascript.com/)
+### 📊 Résultats détaillés
+![Result Screen](screens/result-screen.jpg)
 
+</div>
 
-<!-- GETTING STARTED -->
-## Getting Started
+## ⚡ Fonctionnalités
 
-### Prerequisites
+### 🎮 Quiz Interactif
+- ✅ **Questions à choix multiples** avec validation en temps réel
+- ✅ **Mode apprentissage** - Les questions incorrectes sont reposées
+- ✅ **Indicateurs visuels** pour les bonnes/mauvaises réponses
+- ✅ **Progression en temps réel** avec barre d'avancement
 
-You need to have any Code Editor installed on your PC. If you do not have you can [install from here](https://code.visualstudio.com/download)
+### 📊 Statistiques Avancées
+- 📈 **Analyse des performances** avec métriques détaillées
+- 🔥 **Questions les plus échouées** avec taux d'erreur
+- 💾 **Export des statistiques** au format JSON
+- 🗑️ **Réinitialisation** des données avec confirmation
 
-### Installation
+### 🎨 Interface Utilisateur
+- 🌙 **Thème sombre moderne** avec accents colorés
+- ✨ **Animations CSS avancées** et effets visuels
+- 📱 **Design responsive** pour mobile, tablette et desktop
+- 🎯 **UX optimisée** avec feedback visuel immédiat
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/githubcrce/Quiz-Generator.git
+### 🔧 Fonctionnalités Techniques
+- ⚡ **Performance optimisée** avec animations GPU
+- 🎨 **Variables CSS personnalisées** pour thématisation
+- 📦 **Code modulaire** JavaScript organisé
+- 🔒 **Stockage local** des données utilisateur
+
+## 🛠️ Installation
+
+### Prérequis
+- Navigateur web moderne (Chrome, Firefox, Safari, Edge)
+- Serveur web local (optionnel)
+
+### 🚀 Démarrage rapide
+
+1. **Clonez le repository**
+   ```bash
+   git clone https://github.com/Eren225/quiz_info_mana.git
+   cd quiz_info_mana
    ```
-2. Open the `index.html` file in your browser
 
+2. **Ouvrez le projet**
+   - Ouvrez `index.html` directement dans votre navigateur
+   - Ou utilisez un serveur local :
+   ```bash
+   # Avec Python
+   python -m http.server 8000
+   
+   # Avec Node.js
+   npx serve .
+   
+   # Avec PHP
+   php -S localhost:8000
+   ```
 
+3. **Accédez à l'application**
+   ```
+   http://localhost:8000
+   ```
 
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-## Usage
-
-If you want different set of questions for the project, you can still use the JavaScript component in `question.js` and change the questions in it. 
+## 📁 Structure du Projet
 
 ```
-const quiz = [
+quiz-generator/
+├── 📄 index.html           # Page principale
+├── 🎨 css/
+│   └── style.css          # Styles avec thème sombre moderne
+├── ⚡ js/
+│   ├── app.js             # Logique principale de l'application
+│   ├── question.js        # Gestion des questions
+│   └── statistics.js      # Système de statistiques
+├── 🖼️ img/
+│   ├── logo.png           # Logo de l'application
+│   ├── correct.png        # Icône réponse correcte
+│   ├── wrong.png          # Icône réponse incorrecte
+│   └── ...               # Autres ressources
+├── 📱 screens/
+│   ├── home-screen.jpg    # Screenshot accueil
+│   ├── quiz-screen.jpg    # Screenshot quiz
+│   └── result-screen.jpg  # Screenshot résultats
+└── 📖 README.md           # Documentation
+```
+
+## 🎨 Palette de Couleurs
+
+Le thème sombre utilise une palette de couleurs moderne et professionnelle :
+
+```css
+/* Couleurs principales */
+--bg-primary: #0a0a0a      /* Arrière-plan principal */
+--bg-secondary: #111111    /* Arrière-plan secondaire */
+--bg-card: #1a1a1a        /* Cartes et conteneurs */
+
+/* Couleurs d'accent */
+--accent-primary: #6366f1  /* Violet principal */
+--accent-secondary: #8b5cf6 /* Violet secondaire */
+--accent-success: #10b981  /* Vert succès */
+--accent-error: #ef4444    /* Rouge erreur */
+
+/* Texte */
+--text-primary: #ffffff    /* Texte principal */
+--text-secondary: #b3b3b3  /* Texte secondaire */
+--text-muted: #666666      /* Texte atténué */
+```
+
+## 🔧 Personnalisation
+
+### Modifier les Questions
+Éditez le fichier `js/question.js` pour ajouter vos propres questions :
+
+```javascript
+const questions = [
     {
-        q:'What does HP stands for?',
-        options: ['Henry Packard','Hewiit Packard','Hewlett Packard','Helson Packson'],
-        answer: 2
-    }
-]
+        question: "Votre question ici ?",
+        options: ["Option A", "Option B", "Option C", "Option D"],
+        answer: 0 // Index de la bonne réponse (0-3)
+    },
+    // Ajoutez plus de questions...
+];
 ```
 
-<!-- LICENSE -->
-## License
+### Personnaliser le Thème
+Modifiez les variables CSS dans `css/style.css` :
 
-Distributed under the MIT License. See `LICENSE` for more information.
+```css
+:root {
+    --accent-primary: #your-color;
+    --bg-card: #your-background;
+    /* Autres variables... */
+}
+```
 
-
-
-<!-- CONTACT -->
-## Contact
-
-GitHubCRCE - githubcrce@gmail.com
-
-Project Link: [Click](https://githubcrce.github.io/Quiz-Generator/)
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* [GitHub Pages](https://pages.github.com)
-* [Google Fonts](https://fonts.google.com/)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Font Awesome](https://fontawesome.com)
-
-[product-screenshot-1]: screens/home-screen.jpg
-[product-screenshot-2]: screens/quiz-screen.jpg
+---
