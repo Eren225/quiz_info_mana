@@ -24,7 +24,7 @@ const quiz = [
       "De limiter le partage d'expérience.",
       "De provoquer une concurrence interne entre les différentes divisions."
     ],
-    "answer": 1,
+    "answer": 0,
     "topic": "gestion_projet"
   },
   {
@@ -634,7 +634,7 @@ const quiz = [
       "de limiter le choix des personnes impliquées dans un projet.",
       "de limiter le partage d'expérience."
     ],
-    "answer": 1,
+    "answer": 0,
     "topic": "gestion_projet"
   },
   {

@@ -19,6 +19,7 @@
 		<div class="button-group">
 			<button type="button" class="btn" onclick="startQuiz()">Commencer le Quiz</button>
 			<button type="button" class="btn secondary-btn" onclick="showStatistics()">📊 Statistiques</button>
+			<button type="button" class="btn flashcard-btn" onclick="showFlashcards()">🗂️ Flashcards</button>
 		</div>
 	</div>
 
@@ -34,12 +35,132 @@
 			<div class="failed-questions-list">
 				<!-- La liste des questions échouées sera insérée ici -->
 			</div>
+			<div class="retry-section">
+				<p class="retry-description">Concentrez-vous sur vos points faibles ! Ce mode vous permet de refaire uniquement les questions que vous avez le plus de mal à réussir.</p>
+				<button type="button" class="btn retry-failed-btn" onclick="startFailedQuestionsQuiz()" style="display: none;">
+					🎯 Refaire les questions échouées
+				</button>
+			</div>
 		</div>
 		
 		<div class="stats-actions">
 			<button type="button" class="btn" onclick="goToHomeFromStats()">🏠 Retour</button>
 			<button type="button" class="btn secondary-btn" onclick="exportStats()">💾 Exporter</button>
 			<button type="button" class="btn danger-btn" onclick="resetAllStats()">🗑️ Réinitialiser</button>
+		</div>
+	</div>
+
+	<!-- Flashcards Box -->
+	<div class="flashcards-box custom-box hide">
+		<h2>🗂️ Mode Flashcards</h2>
+		
+		<!-- Sélection des thèmes -->
+		<div class="theme-selection">
+			<h3>📚 Choisissez votre thème d'étude</h3>
+			<div class="themes-grid">
+				<div class="theme-card global-theme" onclick="startFlashcardSession('overview')">
+					<div class="theme-icon">🌐</div>
+					<h4>Vue d'ensemble</h4>
+					<p>Concepts clés de chaque thème</p>
+					<span class="card-count">6 cartes</span>
+				</div>
+				<div class="theme-card" onclick="startFlashcardSession('raci')">
+					<div class="theme-icon">🏢</div>
+					<h4>Matrice RACI</h4>
+					<p>Rôles et responsabilités</p>
+					<span class="card-count">6 cartes</span>
+				</div>
+				<div class="theme-card" onclick="startFlashcardSession('prince2_themes')">
+					<div class="theme-icon">🎯</div>
+					<h4>Thèmes PRINCE2</h4>
+					<p>Les 7 thèmes essentiels</p>
+					<span class="card-count">7 cartes</span>
+				</div>
+				<div class="theme-card" onclick="startFlashcardSession('prince2_principes')">
+					<div class="theme-icon">⚖️</div>
+					<h4>Principes PRINCE2</h4>
+					<p>Les 7 principes fondamentaux</p>
+					<span class="card-count">7 cartes</span>
+				</div>
+				<div class="theme-card" onclick="startFlashcardSession('pdca')">
+					<div class="theme-icon">🔄</div>
+					<h4>Roue de Deming</h4>
+					<p>Cycle PDCA d'amélioration</p>
+					<span class="card-count">7 cartes</span>
+				</div>
+			</div>
+			<button class="btn" onclick="goToHomeFromFlashcards()">🏠 Retour à l'accueil</button>
+		</div>
+
+		<!-- Session de flashcards -->
+		<div class="flashcard-session hide">
+			<div class="session-header">
+				<button class="btn back-btn" onclick="backToThemeSelection()">← Retour aux thèmes</button>
+				<div class="session-info">
+					<span class="current-theme"></span>
+					<div class="progress-stats"></div>
+				</div>
+			</div>
+
+			<div class="flashcard-container">
+				<div class="flashcard" onclick="flipCurrentCard()">
+					<div class="flashcard-content">
+						<div class="flashcard-side front">
+							<div class="card-label">Question/Concept</div>
+							<div class="card-text"></div>
+							<div class="flip-hint">Cliquez pour voir la réponse</div>
+						</div>
+						<div class="flashcard-side back">
+							<div class="card-label">Explication</div>
+							<div class="card-text"></div>
+							<div class="flip-hint">Cliquez pour revenir à la question</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="flashcard-controls">
+				<button class="btn difficulty-btn difficult" onclick="markCardAsDifficult()">
+					😅 Difficile
+				</button>
+				<button class="btn flip-btn" onclick="flipCurrentCard()">
+					🔄 Retourner
+				</button>
+				<button class="btn difficulty-btn easy" onclick="markCardAsUnderstood()">
+					✅ Compris
+				</button>
+			</div>
+
+			<div class="session-actions">
+				<button class="btn secondary-btn" onclick="restartCurrentSession()">🔄 Recommencer</button>
+				<button class="btn secondary-btn" onclick="shuffleCurrentSession()">🎲 Mélanger</button>
+			</div>
+		</div>
+
+		<!-- Résultats de la session -->
+		<div class="flashcard-results hide">
+			<div class="results-content">
+				<h3>🎉 Session terminée !</h3>
+				<div class="results-stats">
+					<div class="stat-item">
+						<span class="stat-number" id="session-total-cards">0</span>
+						<span class="stat-label">Cartes étudiées</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-number" id="session-mastered-cards">0</span>
+						<span class="stat-label">Cartes maîtrisées</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-number" id="session-success-rate">0%</span>
+						<span class="stat-label">Taux de réussite</span>
+					</div>
+				</div>
+				<div class="results-actions">
+					<button class="btn" onclick="restartCurrentTheme()">🔄 Refaire ce thème</button>
+					<button class="btn secondary-btn" onclick="backToThemeSelection()">📚 Choisir un autre thème</button>
+					<button class="btn" onclick="goToHomeFromFlashcards()">🏠 Accueil</button>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -96,6 +217,7 @@
 
     <script src="js/question.js"></script>
     <script src="js/statistics.js"></script>
+    <script src="js/flashcards.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

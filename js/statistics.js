@@ -93,6 +93,38 @@ class QuizStatistics {
         this.saveStats();
     }
 
+    // Obtenir les questions correspondant aux statistiques les plus échouées
+    getFailedQuestionsData(limit = 10) {
+        const mostFailed = this.getMostFailedQuestions(limit);
+        const failedQuestions = [];
+        
+        // Rechercher les questions originales correspondantes
+        mostFailed.forEach(statQuestion => {
+            // Retrouver la question originale en comparant les IDs
+            const statId = Object.keys(this.stats).find(id => 
+                this.stats[id].questionText === statQuestion.questionText
+            );
+            
+            if (statId) {
+                // Trouver la question originale qui correspond à cet ID
+                const foundQuestion = quiz.find(q => {
+                    const questionId = this.hashCode(q.q);
+                    return questionId === statId;
+                });
+                
+                if (foundQuestion) {
+                    failedQuestions.push({
+                        question: foundQuestion,
+                        errorRate: statQuestion.errorRate,
+                        attempts: statQuestion.totalAttempts
+                    });
+                }
+            }
+        });
+        
+        return failedQuestions;
+    }
+
     // Fonction utilitaire pour créer un hash simple d'une chaîne
     hashCode(str) {
         let hash = 0;

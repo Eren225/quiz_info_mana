@@ -15,18 +15,29 @@ let availableOptions = [];
 let correctAnswers = 0;
 let attempt = 0;
 let selectedAnswers = [];
+let isFailedQuestionsMode = false; // Mode pour les questions échouées
 
 function setAvailableQuestions(){
     totalQuestions = quiz.length;
     availableQuestions = [...quiz]; // Copy all questions
     correctlyAnsweredQuestions = []; // Reset correctly answered questions
+    isFailedQuestionsMode = false;
+}
+
+function setFailedQuestions(){
+    const failedQuestionsData = quizStats.getFailedQuestionsData(10);
+    availableQuestions = failedQuestionsData.map(item => item.question);
+    totalQuestions = availableQuestions.length;
+    correctlyAnsweredQuestions = []; // Reset correctly answered questions
+    isFailedQuestionsMode = true;
 }
 
 function getNewQuestion(){
     // Update progress display
     const remaining = availableQuestions.length;
     const completed = correctlyAnsweredQuestions.length;
-    questionNumber.innerHTML = `Questions restantes: ${remaining} | Réussies: ${completed}/${totalQuestions}`;
+    const modeText = isFailedQuestionsMode ? "Mode rattrapage - " : "";
+    questionNumber.innerHTML = `${modeText}Questions restantes: ${remaining} | Réussies: ${completed}/${totalQuestions}`;
     
     // Check if all questions have been answered correctly
     if(availableQuestions.length === 0) {
@@ -256,6 +267,14 @@ function quizResult(){
     const percentage = (correctAnswers/totalQuestions)*100;
     resultBox.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
     resultBox.querySelector(".total-score").innerHTML = correctAnswers + " / " + totalQuestions;
+    
+    // Modifier le titre selon le mode
+    const resultTitle = resultBox.querySelector("h1");
+    if (isFailedQuestionsMode) {
+        resultTitle.innerHTML = "Excellent ! Vous avez maîtrisé les questions difficiles !";
+    } else {
+        resultTitle.innerHTML = "Félicitations! Toutes les questions sont réussies!";
+    }
 }
 
 function resetQuiz(){
@@ -265,6 +284,7 @@ function resetQuiz(){
     availableQuestions = [];
     correctlyAnsweredQuestions = [];
     selectedAnswers = [];
+    isFailedQuestionsMode = false;
 }
 
 function tryAgain(){
@@ -325,6 +345,14 @@ function displayStatistics(){
     
     document.querySelector(".failed-questions-list").innerHTML = 
         mostFailed.length > 0 ? failedQuestionsHtml : '<p>Aucune donnée disponible. Commencez le quiz pour voir les statistiques !</p>';
+    
+    // Afficher ou cacher le bouton de rattrapage
+    const retryButton = document.querySelector(".retry-failed-btn");
+    if (mostFailed.length > 0) {
+        retryButton.style.display = "inline-block";
+    } else {
+        retryButton.style.display = "none";
+    }
 }
 
 function goToHomeFromStats(){
@@ -353,6 +381,199 @@ function startQuiz(){
     answersIndicator();
 }
 
+function startFailedQuestionsQuiz(){
+    const failedQuestionsData = quizStats.getFailedQuestionsData(10);
+    
+    if (failedQuestionsData.length === 0) {
+        alert("Aucune question échouée trouvée ! Commencez d'abord le quiz principal.");
+        return;
+    }
+    
+    document.querySelector(".statistics-box").classList.add("hide");
+    quizBox.classList.remove("hide");
+    setFailedQuestions();
+    hideNextButton(); // Hide next button at start
+    getNewQuestion();
+    answersIndicator();
+}
+
 window.onload = function (){
     homeBox.querySelector(".total-question").innerHTML = ""+quiz.length;
+}
+
+// ===== FONCTIONS FLASHCARDS =====
+
+function showFlashcards(){
+    homeBox.classList.add("hide");
+    document.querySelector(".flashcards-box").classList.remove("hide");
+    
+    // S'assurer que seule la sélection des thèmes est visible
+    document.querySelector(".theme-selection").classList.remove("hide");
+    document.querySelector(".flashcard-session").classList.add("hide");
+    document.querySelector(".flashcard-results").classList.add("hide");
+}
+
+function goToHomeFromFlashcards(){
+    document.querySelector(".flashcards-box").classList.add("hide");
+    homeBox.classList.remove("hide");
+}
+
+function showThemeSelection(){
+    document.querySelector(".theme-selection").classList.remove("hide");
+    document.querySelector(".flashcard-session").classList.add("hide");
+    document.querySelector(".flashcard-results").classList.add("hide");
+}
+
+function startFlashcardSession(theme){
+    if (!flashcardManager.startSession(theme)) {
+        alert("Erreur : thème non trouvé");
+        return;
+    }
+    
+    document.querySelector(".theme-selection").classList.add("hide");
+    document.querySelector(".flashcard-session").classList.remove("hide");
+    document.querySelector(".flashcard-results").classList.add("hide");
+    
+    // Mettre à jour les informations de la session
+    const themeData = flashcardData[theme];
+    document.querySelector(".current-theme").textContent = themeData.title;
+    
+    // Afficher la première carte
+    updateFlashcardDisplay();
+    updateSessionProgress();
+}
+
+function updateFlashcardDisplay(){
+    const currentCard = flashcardManager.getCurrentCard();
+    
+    if (!currentCard) {
+        showFlashcardResults();
+        return;
+    }
+    
+    // Mettre à jour le contenu de la carte
+    const frontText = document.querySelector(".flashcard-side.front .card-text");
+    const backText = document.querySelector(".flashcard-side.back .card-text");
+    
+    frontText.textContent = currentCard.front;
+    backText.textContent = currentCard.back;
+    
+    // Réinitialiser l'affichage de la carte (face avant)
+    const flashcard = document.querySelector(".flashcard");
+    flashcard.classList.remove("flipped");
+    
+    // Mettre à jour le statut des boutons
+    updateFlashcardControls();
+}
+
+function updateSessionProgress(){
+    const stats = flashcardManager.getSessionStats();
+    const progressStats = document.querySelector(".progress-stats");
+    
+    progressStats.innerHTML = `
+        <div class="progress-info">
+            <span>Carte ${stats.currentIndex} / ${stats.totalCards}</span>
+            <span>Maîtrisées: ${stats.masteredCards}</span>
+            <span>Restantes: ${stats.remaining}</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: ${stats.progress}%"></div>
+        </div>
+    `;
+}
+
+function updateFlashcardControls(){
+    // Masquer les boutons de contrôle si on est sur la face avant
+    const controls = document.querySelector(".flashcard-controls");
+    const flipBtn = document.querySelector(".flip-btn");
+    
+    if (flashcardManager.showingFront) {
+        controls.style.opacity = "0.6";
+        document.querySelector(".difficulty-btn.difficult").disabled = true;
+        document.querySelector(".difficulty-btn.easy").disabled = true;
+    } else {
+        controls.style.opacity = "1";
+        document.querySelector(".difficulty-btn.difficult").disabled = false;
+        document.querySelector(".difficulty-btn.easy").disabled = false;
+    }
+}
+
+function flipCurrentCard(){
+    const flashcard = document.querySelector(".flashcard");
+    const isShowingFront = flashcardManager.flipCard();
+    
+    if (isShowingFront) {
+        flashcard.classList.remove("flipped");
+    } else {
+        flashcard.classList.add("flipped");
+    }
+    
+    updateFlashcardControls();
+}
+
+function markCardAsUnderstood(){
+    flashcardManager.markAsUnderstood();
+    
+    // Animation de succès
+    const flashcard = document.querySelector(".flashcard");
+    flashcard.classList.add("understood");
+    
+    setTimeout(() => {
+        flashcard.classList.remove("understood");
+        updateFlashcardDisplay();
+        updateSessionProgress();
+        
+        // Vérifier si la session est terminée
+        if (flashcardManager.isSessionComplete()) {
+            showFlashcardResults();
+        }
+    }, 500);
+}
+
+function markCardAsDifficult(){
+    flashcardManager.markAsDifficult();
+    
+    // Animation de difficulté
+    const flashcard = document.querySelector(".flashcard");
+    flashcard.classList.add("difficult");
+    
+    setTimeout(() => {
+        flashcard.classList.remove("difficult");
+        updateFlashcardDisplay();
+        updateSessionProgress();
+    }, 500);
+}
+
+function restartCurrentSession(){
+    flashcardManager.restartWithDifficultCards();
+    updateFlashcardDisplay();
+    updateSessionProgress();
+}
+
+function shuffleCurrentSession(){
+    flashcardManager.shuffleCards();
+    updateFlashcardDisplay();
+    updateSessionProgress();
+}
+
+function backToThemeSelection(){
+    showThemeSelection();
+}
+
+function showFlashcardResults(){
+    document.querySelector(".flashcard-session").classList.add("hide");
+    document.querySelector(".flashcard-results").classList.remove("hide");
+    
+    // Mettre à jour les statistiques de résultats
+    const stats = flashcardManager.getSessionStats();
+    document.getElementById("session-total-cards").textContent = stats.totalCards;
+    document.getElementById("session-mastered-cards").textContent = stats.masteredCards;
+    
+    const successRate = stats.totalCards > 0 ? Math.round((stats.masteredCards / stats.totalCards) * 100) : 0;
+    document.getElementById("session-success-rate").textContent = successRate + "%";
+}
+
+function restartCurrentTheme(){
+    const currentTheme = flashcardManager.currentTheme;
+    startFlashcardSession(currentTheme);
 }
