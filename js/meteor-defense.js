@@ -232,14 +232,29 @@ class MeteorDefenseGame {
 
     meteorHitGround(meteorElement) {
         const isCorrect = meteorElement.dataset.correct === 'true';
+        const term = meteorElement.dataset.term;
         
         if (isCorrect) {
             // Perdre de la vie si on laisse passer une bonne réponse
-            this.health -= 15;
+            this.health -= 20; // Augmenté de 15 à 20 pour plus de pénalité
+            
+            // Mettre à jour immédiatement l'interface AVANT les effets visuels
+            this.updateGameUI();
+            
             this.createImpactEffect(meteorElement, 'miss');
+            
+            // Créer une explosion d'erreur pour montrer qu'on a raté
+            this.createExplosion(meteorElement, 'error');
+            
+            console.log(`Météorite ratée: "${term}" - Dégâts: -20 PV (Santé: ${this.health})`);
+        } else {
+            // Les leurres qui touchent le sol ne font pas de dégâts
+            console.log(`Leurre ignoré: "${term}" - Aucun dégât`);
         }
         
         this.removeMeteor(meteorElement);
+        
+        // Forcer une nouvelle mise à jour pour s'assurer que tout est synchronisé
         this.updateGameUI();
     }
 
@@ -253,15 +268,20 @@ class MeteorDefenseGame {
             this.score += 100;
             this.createExplosion(meteorElement, 'success');
             
+            console.log(`Bonne réponse: "${term}" - Score: +100 (Total: ${this.score})`);
+            
             // Vérifier si le niveau est terminé
             if (this.foundAnswers >= this.totalAnswers) {
                 setTimeout(() => this.endGame(true), 500);
             }
         } else {
-            // Mauvaise réponse (leurre)
+            // Mauvaise réponse (leurre cliqué)
             this.health -= 10;
             this.score = Math.max(0, this.score - 25);
             this.createExplosion(meteorElement, 'error');
+            this.createImpactEffect(meteorElement, 'wrong-click');
+            
+            console.log(`Leurre cliqué: "${term}" - Dégâts: -10 PV, Score: -25 (Santé: ${this.health}, Score: ${this.score})`);
         }
         
         this.removeMeteor(meteorElement);
@@ -299,6 +319,21 @@ class MeteorDefenseGame {
         const building = document.querySelector(".building");
         building.classList.add('building-hit');
         
+        // Ajouter un effet visuel sur le bâtiment selon le type
+        if (type === 'miss') {
+            // Flash rouge intense pour indiquer qu'on a raté une bonne météorite
+            building.style.filter = 'brightness(0.5) sepia(1) hue-rotate(0deg) saturate(5)';
+            setTimeout(() => {
+                building.style.filter = '';
+            }, 400);
+        } else if (type === 'wrong-click') {
+            // Flash orange pour indiquer qu'on a cliqué un leurre
+            building.style.filter = 'brightness(0.7) sepia(1) hue-rotate(30deg) saturate(3)';
+            setTimeout(() => {
+                building.style.filter = '';
+            }, 300);
+        }
+        
         setTimeout(() => {
             building.classList.remove('building-hit');
         }, 500);
@@ -320,6 +355,9 @@ class MeteorDefenseGame {
                 // Nettoyer les météorites hors écran
                 this.cleanupMeteors();
                 
+                // Forcer la mise à jour de l'interface pour s'assurer que les changements sont visibles
+                this.updateGameUI();
+                
                 // Vérifier les conditions de fin
                 if (this.health <= 0) {
                     this.endGame(false);
@@ -334,16 +372,14 @@ class MeteorDefenseGame {
         
         this.meteors.forEach(meteor => {
             const element = meteor.element;
+            // Vérifier si la météorite est sortie de l'écran (plus besoin de gérer les dégâts ici)
             if (element && element.offsetTop > container.offsetHeight) {
                 meteorsToRemove.push(element);
             }
         });
         
+        // Simplement supprimer les météorites hors écran (les dégâts sont gérés dans meteorHitGround)
         meteorsToRemove.forEach(meteor => {
-            if (meteor.dataset.correct === 'true') {
-                // Météorite correcte manquée
-                this.health -= 15;
-            }
             this.removeMeteor(meteor);
         });
     }
