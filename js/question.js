@@ -661,8 +661,7 @@ const quiz = [
     "answer": [
       0,
       1,
-      2,
-      4
+      2
     ],
     "topic": "gestion_projet"
   },

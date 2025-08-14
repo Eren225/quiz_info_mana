@@ -20,6 +20,7 @@
 			<button type="button" class="btn" onclick="startQuiz()">Commencer le Quiz</button>
 			<button type="button" class="btn secondary-btn" onclick="showStatistics()">📊 Statistiques</button>
 			<button type="button" class="btn flashcard-btn" onclick="showFlashcards()">🗂️ Flashcards</button>
+			<button type="button" class="btn meteor-btn" onclick="showMeteorGame()">🌠 Meteor Defense</button>
 		</div>
 	</div>
 
@@ -215,9 +216,109 @@
         <button type="button" class="btn go-home-btn" onclick="goToHome()">Go To Home</button>
     </div>
 
+    <!-- Meteor Defense Game -->
+    <div class="meteor-game-box custom-box hide">
+        <h2>🌠 Meteor Defense</h2>
+        
+        <!-- Sélection des niveaux -->
+        <div class="level-selection">
+            <h3>🎯 Choisissez votre mission de défense</h3>
+            <p>Protégez le bâtiment en cliquant sur les bonnes météorites ! Attention aux leurres...</p>
+            <div class="levels-grid">
+                <div class="level-card" onclick="startMeteorLevel('raci')">
+                    <div class="level-icon">🏢</div>
+                    <h4>Mission RACI</h4>
+                    <p>Défendez contre les faux rôles</p>
+                    <div class="level-stats">
+                        <span class="meteors-count">4 bonnes météorites</span>
+                        <span class="difficulty easy">Facile</span>
+                    </div>
+                </div>
+                <div class="level-card" onclick="startMeteorLevel('prince2_themes')">
+                    <div class="level-icon">🎯</div>
+                    <h4>Mission Thèmes PRINCE2</h4>
+                    <p>Éliminez les faux thèmes</p>
+                    <div class="level-stats">
+                        <span class="meteors-count">7 bonnes météorites</span>
+                        <span class="difficulty medium">Moyen</span>
+                    </div>
+                </div>
+                <div class="level-card" onclick="startMeteorLevel('prince2_principes')">
+                    <div class="level-icon">⚖️</div>
+                    <h4>Mission Principes PRINCE2</h4>
+                    <p>Détruisez les faux principes</p>
+                    <div class="level-stats">
+                        <span class="meteors-count">7 bonnes météorites</span>
+                        <span class="difficulty hard">Difficile</span>
+                    </div>
+                </div>
+                <div class="level-card" onclick="startMeteorLevel('pdca')">
+                    <div class="level-icon">🔄</div>
+                    <h4>Mission PDCA</h4>
+                    <p>Sauvez le cycle d'amélioration</p>
+                    <div class="level-stats">
+                        <span class="meteors-count">4 bonnes météorites</span>
+                        <span class="difficulty easy">Facile</span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" onclick="goToHomeFromMeteor()">🏠 Retour à l'accueil</button>
+        </div>
+
+        <!-- Jeu en cours -->
+        <div class="meteor-session hide">
+            <div class="game-ui">
+                <div class="game-header">
+                    <button class="btn back-btn" onclick="backToLevelSelection()">← Quitter</button>
+                    <div class="mission-info">
+                        <h3 class="mission-title"></h3>
+                        <div class="mission-objective"></div>
+                    </div>
+                    <div class="game-stats">
+                        <div class="health-bar">
+                            <span class="health-label">🏢 Bâtiment:</span>
+                            <div class="health-container">
+                                <div class="health-fill"></div>
+                            </div>
+                            <span class="health-text">100%</span>
+                        </div>
+                        <div class="score">Score: <span class="score-value">0</span></div>
+                        <div class="found-count">Trouvés: <span class="found-value">0</span>/<span class="total-value">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div class="building">
+                    <div class="building-body">🏢</div>
+                    <div class="building-status">INTACT</div>
+                </div>
+                <div class="meteors-container">
+                    <!-- Les météorites apparaîtront ici -->
+                </div>
+                <div class="explosions-container">
+                    <!-- Les explosions apparaîtront ici -->
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn pause-btn" onclick="pauseGame()">⏸️ Pause</button>
+                <div class="instructions">
+                    <span>Cliquez sur les bonnes météorites pour protéger le bâtiment !</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Résultats de la mission -->
+        <div class="meteor-results hide">
+            <!-- Les résultats seront insérés dynamiquement -->
+        </div>
+    </div>
+
     <script src="js/question.js"></script>
     <script src="js/statistics.js"></script>
     <script src="js/flashcards.js"></script>
+    <script src="js/meteor-defense.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

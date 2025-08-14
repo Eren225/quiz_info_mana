@@ -401,6 +401,55 @@ window.onload = function (){
     homeBox.querySelector(".total-question").innerHTML = ""+quiz.length;
 }
 
+// ===== FONCTIONS METEOR DEFENSE =====
+
+function showMeteorGame(){
+    homeBox.classList.add("hide");
+    document.querySelector(".meteor-game-box").classList.remove("hide");
+    showLevelSelection();
+}
+
+function showLevelSelection(){
+    document.querySelector(".level-selection").classList.remove("hide");
+    document.querySelector(".meteor-session").classList.add("hide");
+    document.querySelector(".meteor-results").classList.add("hide");
+}
+
+function goToHomeFromMeteor(){
+    meteorGame.stopGame();
+    document.querySelector(".meteor-game-box").classList.add("hide");
+    homeBox.classList.remove("hide");
+}
+
+function startMeteorLevel(levelKey){
+    if (!meteorGame.startLevel(levelKey)) {
+        alert("Erreur : niveau non trouvé");
+        return;
+    }
+    
+    document.querySelector(".level-selection").classList.add("hide");
+    document.querySelector(".meteor-session").classList.remove("hide");
+    document.querySelector(".meteor-results").classList.add("hide");
+}
+
+function backToLevelSelection(){
+    meteorGame.stopGame();
+    showLevelSelection();
+}
+
+function restartMeteorLevel(){
+    const currentLevelKey = Object.keys(meteorGameData).find(key => 
+        meteorGameData[key] === meteorGame.currentLevel
+    );
+    
+    document.querySelector(".meteor-results").classList.add("hide");
+    startMeteorLevel(currentLevelKey);
+}
+
+function pauseGame(){
+    meteorGame.pauseGame();
+}
+
 // ===== FONCTIONS FLASHCARDS =====
 
 function showFlashcards(){
