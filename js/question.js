@@ -339,6 +339,19 @@ const quiz = [
     "answer": 2,
     "topic": "gestion_projet"
   },
+    {
+    "q": "Le positionnement de la structure IT diffère d'une entreprise à l'autre. Lorsque la structure IT est centralisée, cela signifie...",
+    "options": [
+      "Toutes les propositions sont correctes",
+      "qu'elle est positionnée au centre de l'organigramme",
+      "Aucune des propositions n'est correcte",
+      "qu'elle est rattachée au service qui est le plus gros utilisateur",
+      "qu'elle est indépendante du reste de l'organigramme",
+      "qu'elle est rattachée à la direction générale."
+    ],
+    "answer": 5,
+    "topic": "gestion_projet"
+  },
   {
     "q": "Le positionnement de la structure IT diffère d'une entreprise à l'autre. Lorsque la structure IT est fragmentée, cela signifie...",
     "options": [

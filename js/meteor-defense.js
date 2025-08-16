@@ -35,13 +35,13 @@ const meteorGameData = {
         title: "Mission Principes PRINCE2",
         objective: "Éliminez les 7 vrais principes PRINCE2 parmi les leurres !",
         correctAnswers: [
-            "Justification commerciale continue",
-            "Apprendre de l'expérience", 
+            "Justification continue",
+            "Apprendre de l'expérience",
             "Rôles et responsabilités définis",
             "Management par séquences",
             "Management par exception",
             "Focalisation produit",
-            "Adapter au contexte"
+            "Adapter à l'environnement"
         ],
         decoys: [
             "Justification technique continue", // Leurre pour Justification commerciale
